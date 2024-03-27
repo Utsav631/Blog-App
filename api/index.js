@@ -14,9 +14,6 @@ mongoose.connect(process.env.MONGO, {
     console.log('Error in DB connection: ' + error)
 });
 
-
-
-
 // Routes
 const port = process.env.PORT || 3000
 // Connection
