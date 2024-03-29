@@ -14,9 +14,15 @@ mongoose.connect(process.env.MONGO, {
     console.log('Error in DB connection: ' + error)
 });
 
+app.use(express.json());
+
 // Routes
 const port = process.env.PORT || 3000
 // Connection
 app.listen(port, ()=>{
     console.log('App running in port : '+port)
 })
+
+import authRoute from './routes/authRoute.js';
+
+app.use('/api/auth', authRoute)
