@@ -20,9 +20,20 @@ app.use(express.json());
 const port = process.env.PORT || 3000
 // Connection
 app.listen(port, ()=>{
-    console.log('App running in port : '+port)
+    console.log('App running in port : '+port) 
 })
 
 import authRoute from './routes/authRoute.js';
 
 app.use('/api/auth', authRoute)
+
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+
+    const message = err.message || "Internal Server Error";
+    res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message
+    })
+})

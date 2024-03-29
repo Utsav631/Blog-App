@@ -1,17 +1,18 @@
 import { User } from '../models/userModel.js';
 import bcryptjs from 'bcryptjs';
+import { errorHandler } from '../utils/error.js';
 
 
-const signup = async (req, res) => {
+const signup = async (req, res, next) => {
     // Your signup logic here
     // console.log(req.body);
 
     const { username, email, password } = req.body;
 
-    if (!username || !email || !password || username === '' || email === '' || password === '') {
-        return res.status(400).json({
-            message: "All fields are required"
-        });
+    if (!username || !email || !password || username === '' || email === '' || password === '') 
+    {
+        
+        next(errorHandler(400, "All fields must be filled !!"));
     }
 
     const hashedPassword = bcryptjs.hashSync(password, 10);
@@ -31,10 +32,9 @@ const signup = async (req, res) => {
             message: "Signup successful"
         });
     } catch (error) {
-        console.error("Error during signup:", error);
-        res.status(500).json({
-            message: "Internal server error"
-        });
+
+        next(error);
+        
     }
 };
 
