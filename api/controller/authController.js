@@ -21,21 +21,22 @@ const signup = async (req, res, next) => {
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({
+                success: false,
                 message: "Email already exists" 
             });
         }
-
+    
         const newUser = new User({ username, email, password:hashedPassword });
         await newUser.save();
-
+    
         res.status(201).json({
+            success: true,
             message: "Signup successful"
         });
     } catch (error) {
-
         next(error);
-        
     }
+    
 };
 
 export default signup;
